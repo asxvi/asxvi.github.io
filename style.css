@@ -1,0 +1,470 @@
+/* =========================
+   BASE RESET
+========================= */
+
+html {
+    font-size: 14px;
+    scroll-behavior: auto;
+    overscroll-behavior: none;
+    scroll-padding-bottom: 80px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* =========================
+   THEME
+========================= */
+
+:root {
+    --bg: #000000;
+    --panel: #050507;
+
+    --text: rgba(255, 255, 255, 0.22);
+    --muted: rgba(255, 255, 255, 0.12);
+
+    --primary: #b79be1d3;
+    --secondary: rgba(209, 183, 247, 0.45);
+    --tertiary: #f1c58a;
+
+    --border: rgba(255, 255, 255, 0.05);
+}
+
+/* =========================
+   GLOBAL
+========================= */
+
+body {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+
+    background:
+        radial-gradient(circle at top,
+            rgba(183, 155, 225, 0.08),
+            transparent 40%
+        ),
+        #000;
+
+    color: var(--text);
+    line-height: 1.3;
+}
+
+main {
+    width: 100%;
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+
+header nav {
+    max-width: 780px;
+    margin: 0 auto;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 20px 24px;
+
+    border-bottom: 1px solid var(--border);
+    background: var(--panel);
+
+    position: sticky;
+    top: 0;
+}
+
+nav .nav-name {
+    font-size: 16px;
+    color: var(--primary);
+}
+
+nav ul {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    list-style: none;
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--secondary);
+}
+
+nav a:hover {
+    color: var(--primary);
+}
+
+/* =========================
+   TYPOGRAPHY
+========================= */
+
+h2 {
+    font-size: 16px;
+    margin: 14px 0;
+    color: var(--primary);
+}
+
+h3 {
+    font-size: 12px;
+    color: var(--text);
+}
+
+/* =========================
+   SURFACE SYSTEM (CORE)
+========================= */
+
+.summary,
+.entry-card,
+.education-card,
+#contact {
+    background: linear-gradient(145deg, #0a0a0f, #07070c);
+
+    border: 1px solid rgba(183, 155, 225, 0.08);
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+/* =========================
+   SUMMARY
+========================= */
+
+#summary p {
+    color: var(--secondary);
+    margin-bottom: 10px;
+}
+
+#summary h2 {
+    margin-bottom: 2px;
+}
+
+.summary {
+    margin-top: 4px;
+    border-radius: 16px;
+    padding: 12px 14px;
+}
+
+.status-line {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 10px;
+    align-items: baseline;
+}
+
+.status-label {
+    color: var(--secondary);
+    min-width: 110px;
+}
+
+.status-value {
+    color: var(--text);
+}
+
+.status-line:hover .status-label{
+    color: var(--primary);
+}
+
+.status-line:hover .status-value{
+    color: var(--secondary);
+}
+
+/* =========================
+   ENTRY CARD
+   (shared component for Experience + Projects,
+   in "standard" and "has-dropdown" variants)
+========================= */
+
+.entry-card {
+    border-radius: 12px;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+/* row that's always visible: logo + title/date/sub + optional
+   repo link + optional caret. Works whether it's a plain <div>
+   (standard) or a <summary> (dropdown variant). Flex (rather than
+   grid) so any combination of logo / link / caret being present
+   or absent just works without needing a modifier class per case. */
+.entry-summary {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+}
+
+.entry-logo {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+}
+
+.entry-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.entry-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.entry-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--secondary);
+}
+
+.entry-sub {
+    font-size: 13px;
+    color: var(--text);
+}
+
+.entry-date {
+    font-size: 12px;
+    color: var(--text);
+    white-space: nowrap;
+}
+
+.entry-caret {
+    flex-shrink: 0;
+    color: var(--secondary);
+    font-size: 12px;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+/* small repo-link icon, sits to the right in the summary row,
+   before the caret if there is one */
+.entry-link {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.entry-link img {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+
+    /* recolors the icon to white regardless of its original fill,
+       so it shows up against the dark background */
+    filter: brightness(0) invert(1);
+    opacity: 0.55;
+    transition: opacity 0.2s ease;
+}
+
+.entry-link:hover img {
+    opacity: 1;
+}
+
+.has-dropdown .entry-summary:hover .entry-title,
+.has-dropdown .entry-summary:hover .entry-caret {
+    color: var(--primary);
+}
+
+details[open] .entry-caret {
+    transform: rotate(180deg);
+}
+
+/* collapsible content, only present in the dropdown variant */
+.entry-content {
+    color: var(--muted);
+    padding: 0 10px;
+
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+
+    transition: max-height 0.3s ease, opacity 0.2s ease, padding 0.25s ease;
+}
+
+details[open] .entry-content {
+    max-height: 500px;
+    opacity: 1;
+    padding: 0 10px 12px;
+}
+
+.entry-content p + p {
+    margin-top: 10px;
+}
+
+.entry-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;;
+}
+
+.entry-tags span {
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    color: var(--secondary);
+    border: 1px solid rgba(183, 155, 225, 0.15);
+    background: rgba(183, 155, 225, 0.05);
+}
+
+/* =========================
+   EDUCATION
+========================= */
+
+.education-card {
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    gap: 10px;
+
+    padding: 10px;
+    border-radius: 12px;
+    margin-bottom: 14px;
+}
+
+.edu-logo {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+}
+
+.edu-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* 2x2 layout:
+   school | date
+   degree | gpa
+*/
+.education-header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    column-gap: 16px;
+    row-gap: 3px;
+    align-items: baseline;
+}
+
+.edu-school {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--secondary);
+}
+
+.edu-date {
+    font-size: 12px;
+    color: var(--secondary);
+    text-align: right;
+    white-space: nowrap;
+}
+
+.edu-degree {
+    font-size: 14px;
+    color: var(--text);
+}
+
+.edu-gpa {
+    font-size: 12px;
+    color: var(--muted);
+    text-align: right;
+    white-space: nowrap;
+}
+
+.edu-coursework,
+.edu-activities {
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.education-card:hover .edu-gpa{
+    color: var(--text);
+}
+
+/* .education-card:hover .edu-coursework{
+    color: var(--tertiary);
+}
+
+.education-card:hover .edu-activities{
+    color: var(--tertiary);
+} */
+
+/* =========================
+   CONTACT BAR
+========================= */
+
+#contact {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 28px;
+
+    padding: 12px 20px;
+
+    border-top: 1px solid rgba(183, 155, 225, 0.10);
+    background: rgba(5, 5, 10, 0.85);
+
+    z-index: 100;
+}
+
+#contact a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    color: var(--secondary);
+    text-decoration: none;
+}
+
+#contact a:hover {
+    color: var(--primary);
+}
+
+#contact a img {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+
+    /* recolors the icon to white regardless of its original fill,
+       so it shows up against the dark background */
+    filter: brightness(0) invert(1);
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+#contact a:hover img {
+    opacity: 1;
+}
+
+/* =========================
+   DETAILS / DROPDOWNS
+========================= */
+
+details {
+    cursor: pointer;
+}
+
+summary {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    list-style: none;
+}
+
+summary::-webkit-details-marker {
+    display: none;
+}
